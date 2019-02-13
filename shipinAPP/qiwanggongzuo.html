@@ -1,0 +1,167 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet"/>
+		<link href="fonts/iconfont.css" rel="stylesheet"/>
+		<link href="css/bass.css" rel="stylesheet"/>
+		<link href="css/index.css" rel="stylesheet"/>
+		<link href="css/icon/iconfont.css" rel="stylesheet">
+		<link href="css/mui.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<script src="js/mui.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			mui.plusReady(function() {
+		 	 	plus.navigator.setStatusBarStyle("UIStatusBarStyleBlackOpaque");
+				plus.navigator.setStatusBarBackground('#000000');//设置状态栏的颜色
+				var userid = plus.storage.getItem('userid');
+				set(userid);
+			});
+		</script>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="float: left;color: #333;"></a>
+			<h1 class="mui-title">期望工作</h1>
+		</header>
+		<div class="mui-content" style="margin-top: 1px;">
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<!-- <label>姓名:</label> -->
+					<input id="city" type="text" class="mui-input-clear" placeholder="城市">
+				</div>
+			</form><br>
+			<form id="type" class="mui-input-group">
+				<!-- <div class="mui-input-row mui-radio">
+					<label>男</label>
+				<input name="radio1" type="radio" checked>
+				</div>
+				<div class="mui-input-row mui-radio">
+					<label>女</label>
+					<input name="radio1" type="radio" >
+				</div> -->
+			</form><br>
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<!-- <label>姓名:</label> -->
+					<input id="posname" type="text" class="mui-input-clear" placeholder="职位名称">
+				</div>
+			</form><br>
+			<span style="width:30%;margin-left: 15px;">最低月薪：</span>
+			<div class="mui-numbox" style="width:70%;margin-right: 0px;" data-numbox-min='1' data-numbox-max='100'>
+			  <!-- "-"按钮，点击可减小当前数值 -->
+			  
+			  <button class="mui-btn mui-numbox-btn-minus" type="button">-</button>
+			  <input id="salarymin" class="mui-numbox-input" type="number" />
+			  <!-- "+"按钮，点击可增大当前数值 -->
+			  <button class="mui-btn mui-numbox-btn-plus" type="button">+</button>
+			</div><br>
+			<span style="width:30%;margin-left: 15px;">最高月薪：</span>
+			<div class="mui-numbox" style="width:70%;margin-right: 0px;" data-numbox-min='1' data-numbox-max='100'>
+			  <!-- "-"按钮，点击可减小当前数值 -->
+			  <button class="mui-btn mui-numbox-btn-minus" type="button">-</button>
+			  <input id="salarymax" class="mui-numbox-input" type="number" />
+			  <!-- "+"按钮，点击可增大当前数值 -->
+			  <button class="mui-btn mui-numbox-btn-plus" type="button">+</button>
+			</div>
+		</div><br>
+		<button id="queding" type="button" style="width:100%;height:40px;background-color:#019875 ;color:#FFFFFF"  class="mui-btn" onclick="queding()">确定</button>		
+	</body>
+<script>
+function queding(){
+	mui.plusReady(function() {
+		var userid = plus.storage.getItem('userid');
+		var realtype='';
+		var type = document.getElementsByName("radio1");
+			for (var i = 0; i < type.length; i++) {
+				if(type[i].checked){
+					realtype=type[i].value;
+				}
+			}
+		 var city = document.getElementById("city").value.replace(/(^\s*)|(\s*$)/g, "");
+		 var posname = document.getElementById("posname").value.replace(/(^\s*)|(\s*$)/g, "");
+		 var salarymin = document.getElementById("salarymin").value.replace(/(^\s*)|(\s*$)/g, "");
+		 var salarymax = document.getElementById("salarymax").value.replace(/(^\s*)|(\s*$)/g, "");
+		 
+		 //mui.alert(userid+" "+realtype+" "+city+" "+posname+" "+salarymin+" "+salarymax)
+		 if(realtype==null||realtype==''||city==null||city==''||posname==null||posname==''||salarymin==null||salarymin==''||
+				 salarymax==null||salarymax==''){
+			 mui.alert("请输入期望工作信息")
+		 }else if(Number(salarymax)<=Number(salarymin)){
+			 mui.alert("最高月薪必须大于最低月薪")
+		 }else if(Number(salarymax)>Number(salarymin)*2){
+			  mui.alert("最高月薪不能大于最低月薪2倍")
+		 }else{
+			 mui.ajax('http://192.168.8.111:8080/appqiwanggongzuo.action',{
+			 	dataType:'json',//服务器返回json格式数据
+			 	type:'get',//HTTP请求类型
+			 	data:{
+			 		userid:userid,
+			 		workaddress:city,
+			 		positionnature:realtype,
+			 		hopepositionname:posname,
+			 		salarymin:salarymin,
+			 		salarymax:salarymax
+			 	},
+			 	timeout:10000,//超时时间设置为10秒；              
+			 	success:function(data){
+			 		mui.alert("期望工作更新成功")
+			 	},
+			 	error:function(xhr,type,errorThrown){
+			 		//异常处理；
+			 		mui.alert("期望工作更新失败 !");
+			 	}
+			 });
+		}
+	});
+}
+	function set(userid){
+		//mui.alert("set");
+		/* mui.openWindow({url:'index.html'}); */
+		mui.ajax('http://192.168.8.111:8080/appuserinfo.action',{
+			dataType:'json',//服务器返回json格式数据
+			type:'get',//HTTP请求类型
+			data:{
+				userid:userid
+			},
+			timeout:10000,//超时时间设置为10秒；              
+			success:function(data){
+				//mui.alert(data.name+"111"+userid);
+				if(data.workaddress!=null&&data.workaddress!=''){
+					document.getElementById("city").value=data.workaddress;
+				}
+				if(data.hopepositionname!=null&&data.hopepositionname!=''){
+					document.getElementById("posname").value=data.hopepositionname;				
+				}
+				if(data.salarymin!=null&&data.salarymin!=''){
+					document.getElementById("salarymin").value=data.salarymin;			
+				}
+				if(data.salarymax!=null&&data.salarymax!=''){
+					document.getElementById("salarymax").value=data.salarymax;			
+				}
+				if(data.positionnature!=null&&data.positionnature!=''){
+					if(data.positionnature=='全职'){
+						document.getElementById("type").innerHTML='<div class="mui-input-row mui-radio"><label>全职</label><input name="radio1" type="radio" value="全职" checked></div><div class="mui-input-row mui-radio"><label>兼职</label><input name="radio1" type="radio" value="兼职"></div><div class="mui-input-row mui-radio"><label>实习</label><input name="radio1" type="radio" value="实习"></div>'
+					}
+					if(data.positionnature=='兼职'){
+						document.getElementById("type").innerHTML='<div class="mui-input-row mui-radio"><label>全职</label><input name="radio1" type="radio" value="全职"></div><div class="mui-input-row mui-radio"><label>兼职</label><input name="radio1" type="radio" value="兼职" checked></div><div class="mui-input-row mui-radio"><label>实习</label><input name="radio1" type="radio" value="实习"></div>'
+					}
+					if(data.positionnature=='实习'){
+						document.getElementById("type").innerHTML='<div class="mui-input-row mui-radio"><label>全职</label><input name="radio1" type="radio" value="全职"></div><div class="mui-input-row mui-radio"><label>兼职</label><input name="radio1" type="radio" value="兼职"></div><div class="mui-input-row mui-radio"><label>实习</label><input name="radio1" type="radio" value="实习" checked></div>'
+					}
+				}else{
+						document.getElementById("type").innerHTML='<div class="mui-input-row mui-radio"><label>全职</label><input name="radio1" type="radio" value="全职"></div><div class="mui-input-row mui-radio"><label>兼职</label><input name="radio1" type="radio" value="兼职"></div><div class="mui-input-row mui-radio"><label>实习</label><input name="radio1" type="radio" value="实习"></div>'
+				}
+			},
+			error:function(xhr,type,errorThrown){
+				//异常处理；
+				mui.alert("加载失败 !");
+			}
+		});
+	}
+</script>
+</html>

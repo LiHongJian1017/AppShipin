@@ -1,0 +1,29 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
+<!--
+2013-9-30: Created.
+-->
+<svg>
+<metadata>
+Created by iconfont
+</metadata>
+<defs>
+
+<font id="iconfont" horiz-adv-x="1024" >
+  <font-face
+    font-family="iconfont"
+    font-weight="500"
+    font-stretch="normal"
+    units-per-em="1024"
+    ascent="896"
+    descent="-128"
+  />
+    <missing-glyph />
+    
+    <glyph glyph-name="gongsi-" unicode="&#58899;" d="M234.9 669.1c0 25.9 25.1 46.9 56 46.9h226.9c30.5 0 55.3-21.1 55.3-46.9v-580.9h40V555.8h132.5c25.9 0 46.9-21.1 46.9-46.9v-413.5h40V508.8c0 47.9-39 86.9-86.9 86.9H613v73.4c0 23.7-10.2 45.8-28.7 62.3-17.9 15.9-41.5 24.7-66.6 24.7H290.9c-52.9 0-96-39-96-86.9v-580.9h40V669.1zM145.8 54.8h734.9v-40H145.8zM286.9 541.9h124.7v-40H286.9zM448.1 542.1h63.2v-40h-63.2zM286.9 406.9h124.7v-40H286.9zM448.1 407.1h63.2v-40h-63.2zM286.9 279.4h124.7v-40H286.9zM448.1 279.7h63.2v-40h-63.2zM638.5 462.9h71v-40h-71zM730.2 463h36v-40h-36zM638.5 338.1h71v-40h-71zM730.2 338.3h36v-40h-36zM638.5 211.3h71v-40h-71zM730.2 211.5h36v-40h-36z"  horiz-adv-x="1024" />
+
+    
+
+
+  </font>
+</defs></svg>

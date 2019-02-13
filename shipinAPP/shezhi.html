@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet"/>
+		<link href="fonts/iconfont.css" rel="stylesheet"/>
+		<link href="css/bass.css" rel="stylesheet"/>
+		<link href="css/index.css" rel="stylesheet"/>
+		<link href="css/icon/iconfont.css" rel="stylesheet">
+		<link href="css/mui.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<script src="js/mui.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			
+			mui.back=function(){
+				mui.plusReady(function() {
+					setTimeout(function(){  
+						plus.webview.currentWebview().hide();
+						plus.webview.currentWebview().close();
+					},1000) 
+					
+					mui.openWindow({url:'wode.html'});
+				})
+				/* mui.openWindow({url:'wode.html'}); */
+			}
+			mui.plusReady(function() { 
+		 	 	plus.navigator.setStatusBarStyle("UIStatusBarStyleBlackOpaque");
+				plus.navigator.setStatusBarBackground('#000000');//设置状态栏的颜色
+				var userid = plus.storage.getItem('userid');
+			});
+		</script>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="float: left;color: #333;"></a>
+			<h1 class="mui-title">设置</h1>
+		</header>
+		<div class="mui-content" style="margin-top: 1px;">
+			<ul class="set-box">
+				<li>
+					<a style="height: 60px;" onclick="mima()">
+						<div class="Set-icon-box set-color2">
+							<i class="icon-uniE937"></i>
+						</div>
+						<h4 style="margin-top: 13px;color: #8F8F94;">修改密码 <span style="float: right" class="icon-uniE926"></span></h4>  
+					</a>
+				</li>
+			</ul>
+		</div><br><br><br><br><br><br>
+		<button id="queding" type="button" style="width:100%;height:40px;background-color:#019875 ;color:#FFFFFF"  class="mui-btn" onclick="zhuxiao()">注销</button>		
+	</body>
+<script>
+function zhuxiao(){
+	mui.plusReady(function() {		
+			plus.storage.removeItem("userid");
+			plus.storage.removeItem("nickname");
+			mui.openWindow({url:'login.html'});  
+		//mui.openWindow({url:'login.html'});
+	});
+}
+	function mima(){
+		mui.openWindow({url:'mima.html'});
+	}
+</script>
+</html>

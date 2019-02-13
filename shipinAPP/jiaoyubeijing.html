@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet"/>
+		<link href="fonts/iconfont.css" rel="stylesheet"/>
+		<link href="css/bass.css" rel="stylesheet"/>
+		<link href="css/index.css" rel="stylesheet"/>
+		<link href="css/icon/iconfont.css" rel="stylesheet">
+		<link href="css/mui.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<script src="js/mui.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			mui.plusReady(function() {
+		 	 	plus.navigator.setStatusBarStyle("UIStatusBarStyleBlackOpaque");
+				plus.navigator.setStatusBarBackground('#000000');//设置状态栏的颜色
+				var userid = plus.storage.getItem('userid');
+				set(userid);
+			});
+		</script>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="float: left;color: #333;"></a>
+			<h1 class="mui-title">教育背景</h1>
+		</header>
+		<div class="mui-content" style="margin-top: 1px;">
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<!-- <label>姓名:</label> -->
+					<input id="schoolname" type="text" class="mui-input-clear" placeholder="学校名称">
+				</div>
+			</form><br>
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<!-- <label>姓名:</label> -->
+					<input id="specialty" type="text" class="mui-input-clear" placeholder="专业名称">
+				</div>
+			</form><br>
+			<span style="width:30%;margin-left: 15px;">开始年份：</span>
+			<div class="mui-numbox" style="width:70%;margin-right: 0px;" data-numbox-min='1900' data-numbox-max='9999'>
+			  <!-- "-"按钮，点击可减小当前数值 -->
+			  
+			  <button class="mui-btn mui-numbox-btn-minus" type="button">-</button>
+			  <input id="yearstart" class="mui-numbox-input" type="number" value="2015"/>
+			  <!-- "+"按钮，点击可增大当前数值 -->
+			  <button class="mui-btn mui-numbox-btn-plus" type="button">+</button>
+			</div><br>
+			<span style="width:30%;margin-left: 15px;">结束年份：</span>
+			<div class="mui-numbox" style="width:70%;margin-right: 0px;" data-numbox-min='1900' data-numbox-max='9999'>
+			  <!-- "-"按钮，点击可减小当前数值 -->
+			  <button class="mui-btn mui-numbox-btn-minus" type="button">-</button>
+			  <input id="yearend" class="mui-numbox-input" type="number" value="2015"/>
+			  <!-- "+"按钮，点击可增大当前数值 -->
+			  <button class="mui-btn mui-numbox-btn-plus" type="button">+</button>
+			</div>
+		</div><br>
+		<button id="queding" type="button" style="width:100%;height:40px;background-color:#019875 ;color:#FFFFFF"  class="mui-btn" onclick="queding()">确定</button>		
+	</body>
+<script>
+function queding(){
+	mui.plusReady(function() {
+		var userid = plus.storage.getItem('userid');
+		
+		 var schoolname = document.getElementById("schoolname").value.replace(/(^\s*)|(\s*$)/g, "");
+		 var specialty = document.getElementById("specialty").value.replace(/(^\s*)|(\s*$)/g, "");
+		 var yearstart = document.getElementById("yearstart").value.replace(/(^\s*)|(\s*$)/g, "");
+		 var yearend = document.getElementById("yearend").value.replace(/(^\s*)|(\s*$)/g, "");
+		 
+		 //mui.alert(userid+" "+realtype+" "+city+" "+posname+" "+salarymin+" "+salarymax)
+		 if(schoolname==null||schoolname==''||specialty==null||specialty==''||yearstart==null||yearstart==''||yearend==null||yearend==''){
+			 mui.alert("请输入教育背景信息")
+		 }else if(Number(yearstart)>=Number(yearend)){
+			 mui.alert("开始年份必须大于结束年份")
+		 }else{
+			 mui.ajax('http://192.168.8.111:8080/appjiaoyubeijing.action',{
+			 	dataType:'json',//服务器返回json格式数据
+			 	type:'get',//HTTP请求类型
+			 	data:{
+			 		userid:userid,
+			 		schoolname:schoolname,
+			 		specialty:specialty,
+			 		yearstart:yearstart,
+			 		yearend:yearend
+			 	},
+			 	timeout:10000,//超时时间设置为10秒；              
+			 	success:function(data){
+			 		mui.alert("期望工作更新成功")
+			 	},
+			 	error:function(xhr,type,errorThrown){
+			 		//异常处理；
+			 		mui.alert("期望工作更新失败 !");
+			 	}
+			 });
+		}
+	});
+}
+	function set(userid){
+		//mui.alert("set");
+		/* mui.openWindow({url:'index.html'}); */
+		mui.ajax('http://192.168.8.111:8080/appuserinfo.action',{
+			dataType:'json',//服务器返回json格式数据
+			type:'get',//HTTP请求类型
+			data:{
+				userid:userid
+			},
+			timeout:10000,//超时时间设置为10秒；              
+			success:function(data){
+				//mui.alert(data.name+"111"+userid);
+				if(data.schoolname!=null&&data.schoolname!=''){
+					document.getElementById("schoolname").value=data.schoolname;
+				}
+				if(data.specialty!=null&&data.specialty!=''){
+					document.getElementById("specialty").value=data.specialty;				
+				}
+				if(data.yearstart!=null&&data.yearstart!=''){
+					document.getElementById("yearstart").value=data.yearstart;			
+				}
+				if(data.yearend!=null&&data.yearend!=''){
+					document.getElementById("yearend").value=data.yearend;			
+				}
+			},
+			error:function(xhr,type,errorThrown){
+				//异常处理；
+				mui.alert("加载失败 !");
+			}
+		});
+	}
+</script>
+</html>

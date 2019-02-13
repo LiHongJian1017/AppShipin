@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet"/>
+		<link href="fonts/iconfont.css" rel="stylesheet"/>
+		<link href="css/bass.css" rel="stylesheet"/>
+		<link href="css/index.css" rel="stylesheet"/>
+		<link href="css/icon/iconfont.css" rel="stylesheet">
+		<link href="css/mui.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<script src="js/mui.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			mui.plusReady(function() {
+		 	 	plus.navigator.setStatusBarStyle("UIStatusBarStyleBlackOpaque");
+				plus.navigator.setStatusBarBackground('#000000');//设置状态栏的颜色
+				var userid = plus.storage.getItem('userid');
+				set(userid);
+			});
+		</script>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="float: left;color: #333;"></a>
+			<h1 class="mui-title">修改密码</h1>
+		</header><br>
+		<div class="mui-content" style="margin-top: 0px;">
+			<form class="mui-input-group">
+				<div class="mui-input-row mui-password">
+					<input id="password" type="password" class="mui-input-password" placeholder="输入密码">
+				</div>
+			</form><br>
+			<form class="mui-input-group">
+				<div class="mui-input-row mui-password">
+					<input id="querenpassword" type="password" class="mui-input-password" placeholder="确认密码">
+				</div>
+			</form><br>
+		</div>
+		<button id="queding" type="button" style="width:100%;height:40px;background-color:#019875 ;color:#FFFFFF"  class="mui-btn" onclick="queding()">确定</button>		
+	</body>
+<script  type="text/javascript" charset="utf-8">
+function queding(){
+	mui.plusReady(function() {
+		var userid = plus.storage.getItem('userid');
+		
+		 var password = document.getElementById("password").value.replace(/(^\s*)|(\s*$)/g, "");
+		 var querenpassword = document.getElementById("querenpassword").value.replace(/(^\s*)|(\s*$)/g, "");
+		 
+		 //mui.alert(userid+" "+realtype+" "+city+" "+posname+" "+salarymin+" "+salarymax)
+		 if(password==null||password==''||querenpassword==null||querenpassword==''){
+			 mui.alert("请输入密码")
+		 }else if(password.length<6){
+			 mui.alert("密码必须大于6位")
+		 }else if(password!=querenpassword){
+			 mui.alert("两次密码输入不一致")
+		 }else{
+			 //mui.alert(1)
+			mui.ajax('http://192.168.8.111:8080/appmima.action',{
+			 	dataType:'json',//服务器返回json格式数据
+			 	type:'get',//HTTP请求类型
+			 	data:{
+			 		userid:userid,
+			 		password:password
+			 	},
+			 	timeout:10000,//超时时间设置为10秒；              
+			 	success:function(data){
+			 		mui.alert("密码修改成功")
+			 	},
+			 	error:function(xhr,type,errorThrown){
+			 		//异常处理；
+			 		mui.alert("密码修改失败 !");
+			 	}
+			 });
+		}
+	});
+}
+</script>
+</html>

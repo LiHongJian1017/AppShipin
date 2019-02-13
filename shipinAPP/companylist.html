@@ -1,0 +1,524 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<link href="css/icon/iconfont.css" rel="stylesheet">
+		<link href="css/bass.css" rel="stylesheet"/>
+		<link href="css/index.css" rel="stylesheet"/>
+		<script src="js/mui.js"></script>
+		
+		
+		<script type="text/javascript">
+			
+			mui.init()
+			
+			window.onload = function(){  
+				//mui('#main').scroll();
+				mui('.mui-scroll-wrapper').scroll({});
+				mui.plusReady(function() {
+					plus.storage.removeItem("comdiqu");
+					plus.storage.removeItem("comsize");
+					plus.storage.removeItem("compage");
+					plus.storage.setItem('comdiqu',null );
+					plus.storage.setItem('comsize',null );
+					plus.storage.setItem('compage',"1" );
+					
+					add();
+				})
+				//queding2();
+			} 
+		</script>
+	</head>
+	<body id="body">
+		<!--上拉加载容器-->
+		<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
+		<!-- 主界面不动、菜单移动 -->
+		<!-- 侧滑导航根容器 -->
+		<div class="mui-off-canvas-wrap mui-draggable mui-slide-in">
+		  <!-- 菜单容器 -->
+		  <aside style="background-color: #F0F0F0;" class="mui-off-canvas-right" id="offCanvasSide">
+			<div class="mui-scroll-wrapper">
+			  <div class="mui-scroll">
+				<!-- 菜单具体展示内容 -->
+							<input id="diqu" style="margin-top: 20px;margin-left: 20px;background-color: #FFFFFF;border-radius:5px;text-indent:10px"" type="search" class="mui-input-clear" placeholder="地区" style="width:100%;display:inline;">
+							
+							<select id="size" style="text-align:center;font-size:10px;height:35px;margin-left: 20px;" class="mui-btn ">
+								<option value="" disabled selected>选择公司规模</option>
+								<option value="不限">不限</option>
+								<option value="少于15人">少于15人</option>
+								<option value="15-50人">15-50人</option>
+								<option value="50-150人">50-150人</option>
+								<option value="150-500人">150-500人</option>
+								<option value="500-2000人">500-2000人</option>
+								<option value="2000人以上">2000人以上</option>
+							</select>
+							<br><br>
+							<button id="queding" type="button" style="margin-left: 20px;width:85%;background-color:#019875 ;color:#FFFFFF"
+							 class="mui-btn" onclick="queding()">确定</button>
+			  </div>
+			</div>
+		  </aside>
+		  <!-- 主页面容器 -->
+		  <div class="mui-inner-wrap">
+			<!-- 主页面标题 -->
+			<header class="mui-bar mui-bar-nav">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="float: left;"></a>
+				<a class="mui-icon mui-action-menu mui-icon-bars mui-pull-right" href="#offCanvasSide"></a>
+				<h1 class="mui-title">公司</h1>
+			</header>
+			
+			<nav class="mui-bar mui-bar-tab">
+				<a id="shouye" class="mui-tab-item"onclick="shouye()">
+					<span id="a1" class="mui-icon mui-icon-home"></span>
+					<span id="a" class="mui-tab-label">首页</span>
+				</a>
+				<a id="gongsi" class="mui-tab-item" href="javascript:void(0);" >
+					<span class="mui-icon iconfont icon-gongsi"></span>
+					<span class="mui-tab-label">公司</span>
+				</a>		
+				<a id="wode" class="mui-tab-item" href="javascript:void(0);" onclick="wode()">
+					<span class="mui-icon mui-icon-contact"></span>
+					<span class="mui-tab-label">我的</span>
+				</a>
+			</nav>
+			<div id="main" class="mui-content mui-scroll-wrapper">
+			  <div class="mui-scroll">
+				<!-- 主界面具体展示内容 -->
+				<div class="mui-content">
+					<div class="all_box" style="margin-top:0px">
+							<!-- 职位 -->
+							<div class="m-Mien">
+								<ul id="companylist">
+									<!-- <li>
+										<a href="" class="cl" onclick="positiondetail()">
+											<div class="mienIntro" style="display:inline;">
+												<div>
+													<h1 style="font-size: 16px;display:inline;">JAVA开发实习生</h1><h1 style="font-size: 16px;display:inline;margin-right:10px;color: #ff9a10;float:right ">4k-8k</h1>
+												</div>
+												<div>
+													<p style="width:80%;font-size:12px;display:inline;">北京|应届毕业生|本科</p>
+													<p style="font-size:12px;display:inline;float: right;margin-top: 5px;">2018-10-12</p>
+												</div>
+											</div>
+											<img src="http://192.168.8.111:8080/pic/a1b33770-c081-4cf8-867a-f45f70a90bc4.jpg" style="display:inline;">
+											<h1 style="font-size: 14px;display:inline">IRA公司</h1>
+											<p style="font-size: 12px;">高等学校|马云|500-2000人</p>
+										</a>
+									</li> -->
+								</ul>
+								<button id="addcompany" type="button" style="width:100%;background-color:#019875 ;color:#FFFFFF"  class="mui-btn" onclick="more()">查看更多</button>
+								<!-- <a style="text-align: center;display:block;border-radius:2px;width:100%;background-color:#019875 ;color:#FFFFFF" onclick="add()" href="javascript:void(0);">查看更多</a> -->
+							</div>
+							<!-- 职位 end-->
+					</div>
+				</div>
+			  </div>
+			</div>  
+			<div class="mui-off-canvas-backdrop"></div>
+		  </div>
+		</div>
+	</body>
+<script type="text/javascript" charset="utf-8">
+	function shouye(){
+			mui.openWindow({url:'index.html'});
+	}
+	 function wode(){
+			mui.openWindow({url:'wode.html'});
+	}
+	function companydetail(companyid) {
+			//mui.alert(companyid);
+			plus.storage.setItem('companyid',companyid );
+			//plus.storage.removeItem("companyid");
+			mui.openWindow({url:'companydetail.html'});
+	}
+	/* mui.init({
+	  pullRefresh : {
+		container:'#main',//待刷新区域标识，querySelector能定位的css选择器均可，比如：id、.class等
+		up : {
+		  height:50,//可选.默认50.触发上拉加载拖动距离
+		  auto:false,//可选,默认false.自动上拉加载一次
+		  contentrefresh : "正在加载...",//可选，正在加载状态时，上拉加载控件上显示的标题内容
+		  contentnomore:'没有更多数据了',//可选，请求完毕若没有更多数据时显示的提醒内容；
+		  callback :add //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+		}
+	  }
+	}); */
+	//键盘弹起与隐藏监听
+	var originalHeight=document.documentElement.clientHeight ||document.body.clientHeight;
+	window.onresize=function(){
+		//键盘弹起与隐藏都会引起窗口的高度发生变化
+		    var resizeHeight=document.documentElement.clientHeight || document.body.clientHeight;
+			if(resizeHeight-0<=originalHeight-0){
+			 //当软键盘弹起，在此处操作
+			 //document.getElementById('diqu').focus();
+			 }else{
+			 //当软键盘收起，在此处操作
+			 //document.getElementById('search').blur(); 
+			 document.getElementById('diqu').blur(); 
+			 }
+	}
+	  
+	 
+	/* (function($) {
+			//发送请求按钮的点击事件
+			document.getElementById("addcompany").addEventListener('tap', function() {
+				//alert(1);
+				mui.alert(1);
+				var list = document.getElementById("companylist");
+				//list.innerHTML=list.innerHTML;
+				mui.plusReady(function() {
+					// 在这里调用plus api
+					var comdiqu = plus.storage.getItem('comdiqu');
+					var comsize = plus.storage.getItem('comsize');
+					var compage = Number(plus.storage.getItem('compage')) + 1;
+					plus.storage.removeItem('compage');
+					plus.storage.setItem('compage', compage + "");
+					var realpage = Number(plus.storage.getItem('compage'));
+
+					var list = document.getElementById("companylist");
+					list.innerHTML = list.innerHTML;
+					mui.ajax('http://192.168.8.111:8080/appcompanylist.action', {
+						dataType: 'json', //服务器返回json格式数据
+						type: 'get', //HTTP请求类型
+						data: {
+							comdiqu: comdiqu,
+							comsize: comsize,
+							compage: realpage
+						},
+						timeout: 10000, //超时时间设置为10秒；              
+						success: function(data) {
+							if (data.length == 0) {
+								document.getElementById("addcompany").innerHTML = "我是有底线的";
+							}else{
+								document.getElementById("addcompany").innerHTML = "查看更多";
+							}
+							var Alllist = '';
+							for (i = 0; i < data.length; i++) {
+
+								Alllist = Alllist + '<li>' + '<a href="javascript:void(0);" class="cl" onclick="companydetail(\'' +
+									data[i].companyid + '\')">'
+								if (data[i].companylogo == null) {
+									Alllist = Alllist + '<img src="images/logo_default.png" style="display:inline;">'
+								} else {
+									Alllist = Alllist + '<img src="http://192.168.8.111:8080/pic/' + data[i].companylogo +
+										'" style="display:inline;">'
+								}
+								Alllist = Alllist + '<h1 style="font-size: 14px;display:inline">' + data[i].companyname + '</h1>'
+								Alllist = Alllist + '<p style="font-size: 12px;">' + data[i].companytype + '|' + data[i].companyaddress +
+									'|' + data[i].companysize + '</p>'
+								if (data[i].companytag1 != null && data[i].companytag1 != '') {
+									Alllist = Alllist + '<span style="border:1px solid #777;font-size:10px;display:inline;">' + data[i].companytag1 +
+										'</span>&nbsp;&nbsp;'
+								}
+								if (data[i].companytag2 != null && data[i].companytag2 != '') {
+									Alllist = Alllist + '<span style="border:1px solid #777;font-size:10px;display:inline;">' + data[i].companytag2 +
+										'</span>&nbsp;&nbsp;'
+								}
+								if (data[i].companytag3 != null && data[i].companytag3 != '') {
+									Alllist = Alllist + '<span style="border:1px solid #777;font-size:10px;display:inline;">' + data[i].companytag3 +
+										'</span>&nbsp;&nbsp;'
+								}
+								if (data[i].companytag4 != null && data[i].companytag4 != '') {
+									Alllist = Alllist + '<span style="border:1px solid #777;font-size:10px;display:inline;">' + data[i].companytag4 +
+										'</span>&nbsp;&nbsp;'
+								}
+								if (data[i].companytag5 != null && data[i].companytag5 != '') {
+									Alllist = Alllist + '<span style="border:1px solid #777;font-size:10px;display:inline;">' + data[i].companytag5 +
+										'</span>&nbsp;&nbsp;'
+								}
+								Alllist = Alllist + '</div></div></a></li>'
+							}
+
+							list.innerHTML = list.innerHTML + Alllist;
+							//mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+							//mui('#mian').pullRefresh().endPullupToRefresh()
+							//mui('#mian').pullRefresh().disablePullupToRefresh();
+						},
+						error: function(xhr, type, errorThrown) {
+							//异常处理；
+							//mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+							mui.alert("加载失败 !");
+						}
+					});
+
+				});
+			});
+		})(mui); */
+	function more() {
+		var list = document.getElementById("companylist");
+		//list.innerHTML=list.innerHTML;
+		mui.plusReady(function() {
+			// 在这里调用plus api
+			var comdiqu = plus.storage.getItem('comdiqu');
+			var comsize = plus.storage.getItem('comsize');
+			var compage = Number(plus.storage.getItem('compage')) + 1;
+			plus.storage.removeItem('compage');
+			plus.storage.setItem('compage', compage + "");
+			var realpage = Number(plus.storage.getItem('compage'));
+		
+			var list = document.getElementById("companylist");
+			list.innerHTML = list.innerHTML;
+			mui.ajax('http://192.168.8.111:8080/appcompanylist.action', {
+				dataType: 'json', //服务器返回json格式数据
+				type: 'get', //HTTP请求类型
+				data: {
+					comdiqu: comdiqu,
+					comsize: comsize,
+					compage: realpage
+				},
+				timeout: 10000, //超时时间设置为10秒；              
+				success: function(data) {
+					if (data.length == 0) {
+						document.getElementById("addcompany").innerHTML = "我是有底线的";
+					}else{
+						document.getElementById("addcompany").innerHTML = "查看更多";
+					}
+					var Alllist = '';
+					for (i = 0; i < data.length; i++) {
+		
+						Alllist = Alllist + '<li>' + '<a href="javascript:void(0);" class="cl" onclick="companydetail(\'' +
+							data[i].companyid + '\')">'
+						if (data[i].companylogo == null) {
+							Alllist = Alllist + '<img src="images/logo_default.png" style="display:inline;">'
+						} else {
+							Alllist = Alllist + '<img src="http://192.168.8.111:8080/pic/' + data[i].companylogo +
+								'" style="display:inline;">'
+						}
+						Alllist = Alllist + '<h1 style="font-size: 14px;display:inline">' + data[i].companyname + '</h1>'
+						Alllist = Alllist + '<p style="font-size: 12px;">' + data[i].companytype + '|' + data[i].companyaddress +
+							'|' + data[i].companysize + '</p>'
+						if (data[i].companytag1 != null && data[i].companytag1 != '') {
+							Alllist = Alllist + '<span style="border:1px solid #777;font-size:10px;display:inline;">' + data[i].companytag1 +
+								'</span>&nbsp;&nbsp;'
+						}
+						if (data[i].companytag2 != null && data[i].companytag2 != '') {
+							Alllist = Alllist + '<span style="border:1px solid #777;font-size:10px;display:inline;">' + data[i].companytag2 +
+								'</span>&nbsp;&nbsp;'
+						}
+						if (data[i].companytag3 != null && data[i].companytag3 != '') {
+							Alllist = Alllist + '<span style="border:1px solid #777;font-size:10px;display:inline;">' + data[i].companytag3 +
+								'</span>&nbsp;&nbsp;'
+						}
+						if (data[i].companytag4 != null && data[i].companytag4 != '') {
+							Alllist = Alllist + '<span style="border:1px solid #777;font-size:10px;display:inline;">' + data[i].companytag4 +
+								'</span>&nbsp;&nbsp;'
+						}
+						if (data[i].companytag5 != null && data[i].companytag5 != '') {
+							Alllist = Alllist + '<span style="border:1px solid #777;font-size:10px;display:inline;">' + data[i].companytag5 +
+								'</span>&nbsp;&nbsp;'
+						}
+						Alllist = Alllist + '</div></div></a></li>'
+					}
+		
+					list.innerHTML = list.innerHTML + Alllist;
+					//mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+					//mui('#mian').pullRefresh().endPullupToRefresh()
+					//mui('#mian').pullRefresh().disablePullupToRefresh();
+				},
+				error: function(xhr, type, errorThrown) {
+					//异常处理；
+					//mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+					mui.alert("加载失败 !");
+				}
+			});
+		
+		});
+	}
+	function add() {
+			mui.plusReady(function() {
+				var comdiqu = plus.storage.getItem('comdiqu');
+				var comsize = plus.storage.getItem('comsize');
+				var compage = plus.storage.getItem('compage');
+
+				var list = document.getElementById("companylist");
+				list.innerHTML = list.innerHTML;
+				mui.ajax('http://192.168.8.111:8080/appcompanylist.action', {
+					dataType: 'json', //服务器返回json格式数据
+					type: 'get', //HTTP请求类型
+					data: {
+						comdiqu: comdiqu,
+						comsize: comsize,
+						compage: compage
+					},
+					timeout: 10000, //超时时间设置为10秒；              
+					success: function(data) {
+						if (data.length == 0) {
+							document.getElementById("addcompany").innerHTML = "我是有底线的";
+						}
+						var Alllist = '';
+						for (i = 0; i < data.length; i++) {
+							//mui.alert()
+							Alllist = Alllist + '<li>' + '<a href="javascript:void(0);" class="cl" onclick="companydetail(\'' + data[i]
+								.companyid + '\')">'
+							if (data[i].companylogo == null) {
+								Alllist = Alllist + '<img src="images/logo_default.png" style="display:inline;">'
+							} else {
+								Alllist = Alllist + '<img src="http://192.168.8.111:8080/pic/' + data[i].companylogo +
+									'" style="display:inline;">'
+							}
+							Alllist = Alllist + '<h1 style="font-size: 14px;display:inline">' + data[i].companyname + '</h1>'
+							Alllist = Alllist + '<p style="font-size: 12px;">' + data[i].companytype + '|' + data[i].companyaddress +
+								'|' + data[i].companysize + '</p>'
+							if (data[i].companytag1 != null && data[i].companytag1 != '') {
+								Alllist = Alllist + '<span style="border:1px solid #777;font-size:10px;display:inline;">' + data[i].companytag1 +
+									'</span>&nbsp;&nbsp;'
+							}
+							if (data[i].companytag2 != null && data[i].companytag2 != '') {
+								Alllist = Alllist + '<span style="border:1px solid #777;font-size:10px;display:inline;">' + data[i].companytag2 +
+									'</span>&nbsp;&nbsp;'
+							}
+							if (data[i].companytag3 != null && data[i].companytag3 != '') {
+								Alllist = Alllist + '<span style="border:1px solid #777;font-size:10px;display:inline;">' + data[i].companytag3 +
+									'</span>&nbsp;&nbsp;'
+							}
+							if (data[i].companytag4 != null && data[i].companytag4 != '') {
+								Alllist = Alllist + '<span style="border:1px solid #777;font-size:10px;display:inline;">' + data[i].companytag4 +
+									'</span>&nbsp;&nbsp;'
+							}
+							if (data[i].companytag5 != null && data[i].companytag5 != '') {
+								Alllist = Alllist + '<span style="border:1px solid #777;font-size:10px;display:inline;">' + data[i].companytag5 +
+									'</span>&nbsp;&nbsp;'
+							}
+							Alllist = Alllist + '</div></div></a></li>'
+						}
+						list.innerHTML = list.innerHTML + Alllist;
+						//mui('#mian').pullRefresh().endPullupToRefresh()
+						//mui('#mian').pullRefresh().disablePullupToRefresh();
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						//mui('#main').pullRefresh().endPullupToRefresh()
+						mui.alert("加载失败 !");
+					}
+				});
+			});
+		}
+	
+function queding() { 
+		document.getElementById('diqu').blur(); 
+		//mui.alert("queding");
+		mui.plusReady(function(){
+			var comdiqu = document.getElementById("diqu").value;
+			var sizeindex = document.getElementById("size");
+			var comsize =sizeindex.options[sizeindex.selectedIndex].value;
+			//mui.alert(yuexin+diqu+jingyan+xueli+xingzhi);
+			plus.storage.removeItem("compage");
+			plus.storage.setItem('compage', "1");
+			if(comdiqu != '' && comdiqu != undefined && comdiqu != null){
+				//plus.storage.setItem('diqu', diqu+"");
+				//mui.alert(1);
+				plus.storage.removeItem("comdiqu");
+				plus.storage.setItem('comdiqu', comdiqu+"");
+			}else{
+				plus.storage.removeItem("comdiqu");
+				plus.storage.setItem('comdiqu', null);
+			}
+			if(comsize != '' && comsize != undefined && comsize != null){
+				//plus.storage.setItem('diqu', diqu+"");
+				//mui.alert(1);
+				plus.storage.removeItem("comsize");
+				plus.storage.setItem('comsize', comsize+"");
+			}else{
+				plus.storage.removeItem("comsize");
+				plus.storage.setItem('comsize', null);
+			}
+			
+			mui('.mui-off-canvas-right').offCanvas('close');
+			var comdiqu = plus.storage.getItem('comdiqu');
+			var comsize = plus.storage.getItem('comsize');
+			var compage = "1";
+			//mui.alert(kd+" "+diqu+" "+yuexin+" "+jingyan+" "+xueli+" "+xingzhi+" "+page);
+			
+			var list=document.getElementById("companylist");
+			list.innerHTML="";
+			mui.ajax('http://192.168.8.111:8080/appcompanylist.action',{
+				dataType:'json',//服务器返回json格式数据
+				type:'get',//HTTP请求类型
+				data:{
+					comdiqu: comdiqu,
+					comsize: comsize,
+					compage: compage
+				},
+				timeout:10000,//超时时间设置为10秒；              
+				success:function(data){
+					if(data!=null){
+						document.getElementById("addcompany").innerHTML="查看更多";
+					}else{
+						document.getElementById("addcompany").innerHTML="我是有底线的";
+					}
+					var Alllist = '';
+					for (i = 0; i < data.length; i++) {
+						//mui.alert()
+						Alllist = Alllist + '<li>' + '<a href="javascript:void(0);" class="cl" onclick="companydetail(\'' + data[i]
+							.companyid + '\')">'
+						if (data[i].companylogo == null) {
+							Alllist = Alllist + '<img src="images/logo_default.png" style="display:inline;">'
+						} else {
+							Alllist = Alllist + '<img src="http://192.168.8.111:8080/pic/' + data[i].companylogo +
+								'" style="display:inline;">'
+						}
+						Alllist = Alllist + '<h1 style="font-size: 14px;display:inline">' + data[i].companyname + '</h1>'
+						Alllist = Alllist + '<p style="font-size: 12px;">' + data[i].companytype + '|' + data[i].companyaddress +
+							'|' + data[i].companysize + '</p>'
+						if (data[i].companytag1 != null && data[i].companytag1 != '') {
+							Alllist = Alllist + '<span style="border:1px solid #777;font-size:10px;display:inline;">' + data[i].companytag1 +
+								'</span>&nbsp;&nbsp;'
+						}
+						if (data[i].companytag2 != null && data[i].companytag2 != '') {
+							Alllist = Alllist + '<span style="border:1px solid #777;font-size:10px;display:inline;">' + data[i].companytag2 +
+								'</span>&nbsp;&nbsp;'
+						}
+						if (data[i].companytag3 != null && data[i].companytag3 != '') {
+							Alllist = Alllist + '<span style="border:1px solid #777;font-size:10px;display:inline;">' + data[i].companytag3 +
+								'</span>&nbsp;&nbsp;'
+						}
+						if (data[i].companytag4 != null && data[i].companytag4 != '') {
+							Alllist = Alllist + '<span style="border:1px solid #777;font-size:10px;display:inline;">' + data[i].companytag4 +
+								'</span>&nbsp;&nbsp;'
+						}
+						if (data[i].companytag5 != null && data[i].companytag5 != '') {
+							Alllist = Alllist + '<span style="border:1px solid #777;font-size:10px;display:inline;">' + data[i].companytag5 +
+								'</span>&nbsp;&nbsp;'
+						}
+						Alllist = Alllist + '</div></div></a></li>'
+					}
+					list.innerHTML = Alllist;
+				},
+				error:function(xhr,type,errorThrown){
+					//异常处理；
+					//mui('#main').pullRefresh().endPullupToRefresh()
+					mui.alert("加载失败 !");
+				}
+			});
+		})
+	}
+	mui('body').on('tap', 'a', function() {
+            var str = this.onclick;
+            str = String(str);
+            var order = str.split('\n');
+            eval(order[1]);
+        });
+		 mui('body').on('tap', 'button', function() {
+		        var str = this.onclick;
+				str = String(str);
+				var order = str.split('\n');
+				eval(order[1]);
+		    }); 
+			
+</script>
+<style>
+		#shouye{
+			color:#929292;
+		}
+		#gongsi{
+			color:#019875;
+		}
+		#wode{
+			color:#929292;
+		}
+	</style>
+</html>

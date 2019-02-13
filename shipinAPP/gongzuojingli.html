@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet"/>
+		<link href="fonts/iconfont.css" rel="stylesheet"/>
+		<link href="css/bass.css" rel="stylesheet"/>
+		<link href="css/index.css" rel="stylesheet"/>
+		<link href="css/icon/iconfont.css" rel="stylesheet">
+		<link href="css/mui.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<script src="js/mui.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			mui.plusReady(function() {
+		 	 	plus.navigator.setStatusBarStyle("UIStatusBarStyleBlackOpaque");
+				plus.navigator.setStatusBarBackground('#000000');//设置状态栏的颜色
+				var userid = plus.storage.getItem('userid');
+				set(userid);
+			});
+		</script>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="float: left;color: #333;"></a>
+			<h1 class="mui-title">工作经历</h1>
+		</header>
+		<div class="mui-content" style="margin-top: 1px;">
+			<div class="mui-input-row" style="margin: 10px 5px;">
+				<textarea id="gongzuojingli" rows="5" placeholder="工作经历(可分条描述)"></textarea>
+			</div>
+		<button id="queding" type="button" style="width:100%;height:40px;background-color:#019875 ;color:#FFFFFF"  class="mui-btn" onclick="queding()">确定</button>		
+	</body>
+<script>
+function queding(){
+	mui.plusReady(function() {
+		var userid = plus.storage.getItem('userid');
+		 var gongzuojingli = document.getElementById("gongzuojingli").value;
+		 var jingli = gongzuojingli.replace(/(^\s*)|(\s*$)/g, "");
+		 
+		 //mui.alert(userid+" "+realtype+" "+city+" "+posname+" "+salarymin+" "+salarymax)
+		 if(jingli==null||jingli==''){
+			 mui.alert("请输入工作经历")
+		 }else{
+			 mui.ajax('http://192.168.8.111:8080/appgongzuojingli.action',{
+			 	dataType:'json',//服务器返回json格式数据
+			 	type:'get',//HTTP请求类型
+			 	data:{
+			 		userid:userid,
+			 		workexperience:gongzuojingli
+			 	},
+			 	timeout:10000,//超时时间设置为10秒；              
+			 	success:function(data){
+			 		mui.alert("工作经历更新成功")
+			 	},
+			 	error:function(xhr,type,errorThrown){
+			 		//异常处理；
+			 		mui.alert("工作经历更新失败 !");
+			 	}
+			 });
+		}
+	});
+}
+	function set(userid){
+		//mui.alert("set");
+		/* mui.openWindow({url:'index.html'}); */
+		mui.ajax('http://192.168.8.111:8080/appuserinfo.action',{
+			dataType:'json',//服务器返回json格式数据
+			type:'get',//HTTP请求类型
+			data:{
+				userid:userid
+			},
+			timeout:10000,//超时时间设置为10秒；              
+			success:function(data){
+				//mui.alert(data.name+"111"+userid);
+				if(data.workexperience!=null&&data.workexperience!=''){
+					document.getElementById("gongzuojingli").value=data.workexperience;
+				}
+			},
+			error:function(xhr,type,errorThrown){
+				//异常处理；
+				mui.alert("加载失败 !");
+			}
+		});
+	}
+</script>
+</html>

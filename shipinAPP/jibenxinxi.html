@@ -1,0 +1,220 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet"/>
+		<link href="fonts/iconfont.css" rel="stylesheet"/>
+		<link href="css/bass.css" rel="stylesheet"/>
+		<link href="css/index.css" rel="stylesheet"/>
+		<link href="css/icon/iconfont.css" rel="stylesheet">
+		<link href="css/mui.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<script src="js/mui.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			mui.plusReady(function() {
+		 	 	plus.navigator.setStatusBarStyle("UIStatusBarStyleBlackOpaque");
+				plus.navigator.setStatusBarBackground('#000000');//设置状态栏的颜色
+				var userid = plus.storage.getItem('userid');
+				set(userid);
+			});
+		</script>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="float: left;color: #333;"></a>
+			<h1 class="mui-title">基本信息</h1>
+		</header>
+		<div class="mui-content" style="margin-top: 1px;">
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<!-- <label>姓名:</label> -->
+					<input id="name" type="text" class="mui-input-clear" placeholder="姓名">
+				</div>
+			</form><br>
+			<form id="sex" class="mui-input-group">
+				<!-- <div class="mui-input-row mui-radio">
+					<label>男</label>
+				<input name="radio1" type="radio" checked>
+				</div>
+				<div class="mui-input-row mui-radio">
+					<label>女</label>
+					<input name="radio1" type="radio" >
+				</div> -->
+			</form><br>
+			<select id="xueli" style="text-align:center;font-size:15px;height:35px;margin-left: 0px;" class="mui-btn ">
+				<option value="" disabled selected>选择学历</option>
+				<option index="1" text="1" value="大专">大专</option>
+				<option index="2" text="2" value="本科">本科</option>
+				<option index="3" text="3" value="硕士">硕士</option>
+				<option index="4" text="4" value="博士">博士</option>
+				<option index="5" text="0" value="其他">其他</option>
+			</select><br>
+			<select id="jingyan" style="text-align:center;font-size:15px;height:35px;margin-left: 0px;" class="mui-btn ">
+				<option value="" disabled selected>选择经验</option>
+				<option index="1" text="0" value="应届毕业生">应届毕业生</option>
+				<option index="2" text="1" value="1年">1年</option>
+				<option index="3" text="2" value="2年">2年</option>
+				<option index="4" text="3" value="3年">3年</option>
+				<option index="5" text="4" value="4年">4年</option>
+				<option index="6" text="5" value="5年">5年</option>
+				<option index="7" text="6" value="6年">6年</option>
+				<option index="8" text="7" value="7年">7年</option>
+				<option index="9" text="8" value="8年">8年</option>
+				<option index="10" text="9" value="9年">9年</option>
+				<option index="11" text="10" value="10年">10年</option>
+				<option index="12" text="11" value="10年以上">10年以上</option>
+			</select><br><br>
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<!-- <label>手机:</label> -->
+					<input id="shouji" type="text" class="mui-input-clear" placeholder="手机">
+				</div>
+			</form>
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<!-- <label>邮箱:</label> -->
+					<input id="youxiang" type="text" class="mui-input-clear" placeholder="邮箱">
+				</div>
+			</form><br>
+			<select id="zhuangtai" style="text-align:center;font-size:15px;height:35px;margin-left: 0px;" class="mui-btn ">
+				<option value="" disabled selected>选择状态</option>
+				<option index="1" text="我目前已离职，可快速到岗" value="我目前已离职，可快速到岗">我目前已离职，可快速到岗</option>
+				<option index="2" text="我目前正在职，正考虑换个新环境" value="我目前正在职，正考虑换个新环境">我目前正在职，正考虑换个新环境</option>
+				<option index="3" text="我暂时不想找工作" value="我暂时不想找工作">我暂时不想找工作</option>
+				<option index="4" text="我是应届毕业生" value="我是应届毕业生">我是应届毕业生</option>
+			</select>
+		</div><br>
+		<button id="queding" type="button" style="width:100%;height:40px;background-color:#019875 ;color:#FFFFFF"  class="mui-btn" onclick="queding()">确定</button>		
+	</body>
+<script>
+function queding(){
+	mui.plusReady(function() {
+		var userid = plus.storage.getItem('userid');
+		var realsex='';
+		var sex = document.getElementsByName("radio1");
+			for (var i = 0; i < sex.length; i++) {
+				if(sex[i].checked){
+					realsex=sex[i].value;
+				}
+			}
+		 var name = document.getElementById("name").value.replace(/(^\s*)|(\s*$)/g, "");
+		 
+		 var xueliindex = document.getElementById("xueli");
+		 var xueli =xueliindex.options[xueliindex.selectedIndex].value;
+		 
+		 var jingyanindex = document.getElementById("jingyan");
+		 var jingyan =jingyanindex.options[jingyanindex.selectedIndex].value;
+		 
+		 var shouji = document.getElementById("shouji").value.replace(/(^\s*)|(\s*$)/g, "");
+		 var youxiang = document.getElementById("youxiang").value.replace(/(^\s*)|(\s*$)/g, "");
+		 
+		 var zhuangtaiindex = document.getElementById("zhuangtai");
+		 var zhuangtai =zhuangtaiindex.options[zhuangtaiindex.selectedIndex].value.replace(/(^\s*)|(\s*$)/g, "");
+		
+		 var reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+		 isemailok= reg.test(youxiang);
+		 //mui.alert(name+sex+xueli+jingyan+shouji+youxiang+zhuangtai)
+		 if(name==null||name==''||realsex==null||realsex==''||xueli==null||xueli==''||jingyan==null||jingyan==''||
+				 shouji==null||shouji==''||youxiang==null||youxiang==''||zhuangtai==null||zhuangtai==''){
+			 mui.alert("请输入基本信息")
+		 }else if(!isemailok){
+			 mui.alert("邮箱格式错误")
+		 }else if(!(/^1(3|4|5|7|8)\d{9}$/.test(shouji))){
+			  mui.alert("手机格式错误")
+		 }else{
+			 mui.ajax('http://192.168.8.111:8080/appjibenxinxi.action',{
+			 	dataType:'json',//服务器返回json格式数据
+			 	type:'get',//HTTP请求类型
+			 	data:{
+			 		userid:userid,
+			 		name:name,
+			 		sex:realsex,
+			 		education:xueli,
+			 		experience:jingyan,
+			 		phone:shouji,
+			 		email:youxiang,
+					workstatus:zhuangtai
+			 	},
+			 	timeout:10000,//超时时间设置为10秒；              
+			 	success:function(data){
+			 		mui.alert("基本信息更新成功")
+			 	},
+			 	error:function(xhr,type,errorThrown){
+			 		//异常处理；
+			 		mui.alert("基本信息更新失败 !");
+			 	}
+			 });
+		} 
+	});
+}
+	function set(userid){
+		//mui.alert("set");
+		/* mui.openWindow({url:'index.html'}); */
+		mui.ajax('http://192.168.8.111:8080/appuserinfo.action',{
+			dataType:'json',//服务器返回json格式数据
+			type:'get',//HTTP请求类型
+			data:{
+				userid:userid
+			},
+			timeout:10000,//超时时间设置为10秒；              
+			success:function(data){
+				//mui.alert(data.name+"111"+userid);
+				if(data.name!=null&&data.name!=''){
+					document.getElementById("name").value=data.name;
+				}
+				if(data.phone!=null&&data.phone!=''){
+					document.getElementById("shouji").value=data.phone;				
+				}
+				if(data.email!=null&&data.email!=''){
+					document.getElementById("youxiang").value=data.email;			
+				}
+				if(data.sex!=null&&data.sex!=''){
+					if(data.sex=='男'){
+						document.getElementById("sex").innerHTML='<div class="mui-input-row mui-radio"><label>男</label><input name="radio1" type="radio" value="男" checked></div><div class="mui-input-row mui-radio"><label>女</label><input name="radio1" type="radio" value="女"></div>'
+					}
+					if(data.sex=='女'){
+						document.getElementById("sex").innerHTML='<div class="mui-input-row mui-radio"><label>男</label><input name="radio1" type="radio" value="男"></div><div class="mui-input-row mui-radio"><label>女</label><input name="radio1" type="radio" value="女" checked></div>'
+					}
+				}else{
+						document.getElementById("sex").innerHTML='<div class="mui-input-row mui-radio"><label>男</label><input name="radio1" type="radio" value="男"></div><div class="mui-input-row mui-radio"><label>女</label><input name="radio1" type="radio" value="女"></div>'
+				}
+				if(data.education!=null&&data.education!=''){
+					var xueli = document.getElementById("xueli");  
+					if(data.education!='0'){
+						xueli.options[data.education].selected = true;  
+					}else{
+						xueli.options[5].selected = true;  
+					}
+				}
+				if(data.experience!=null&&data.experience!=''){
+					var jingyan = document.getElementById("jingyan"); 
+					var num =  Number(data.experience)+1;
+					jingyan.options[num].selected = true; 
+				}
+				
+				if(data.workstatus!=null&&data.workstatus!=''){
+					var zhuangtai = document.getElementById("zhuangtai");  
+					//zhuangtai.options[2].selected = true;  
+					if(data.workstatus=='我目前已离职，可快速到岗'){
+						zhuangtai.options['1'].selected = true;  
+					}if(data.workstatus=='我目前正在职，正考虑换个新环境'){
+						zhuangtai.options['2'].selected = true; 
+					}if(data.workstatus=='我暂时不想找工作'){
+						zhuangtai.options['3'].selected = true; 
+					}if(data.workstatus=='我是应届毕业生'){
+						zhuangtai.options['4'].selected = true; 
+					}
+				}
+			},
+			error:function(xhr,type,errorThrown){
+				//异常处理；
+				mui.alert("加载失败 !");
+			}
+		});
+	}
+</script>
+</html>

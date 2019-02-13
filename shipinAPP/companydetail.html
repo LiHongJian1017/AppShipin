@@ -1,0 +1,324 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<link href="fonts/iconfont.css" rel="stylesheet"/>
+		<link href="css/bass.css" rel="stylesheet"/>
+		<link href="css/index.css" rel="stylesheet"/>
+	</head>
+
+	<body>
+		<script src="js/mui.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			
+			 window.onload = function(){
+				mui.plusReady(function() {
+				       	 	plus.navigator.setStatusBarStyle("UIStatusBarStyleBlackOpaque");
+							plus.navigator.setStatusBarBackground('#000000');//设置状态栏的颜色
+							var companyid = plus.storage.getItem('companyid');
+							one(companyid);
+							two(companyid);
+							three(companyid);
+							plus.storage.removeItem("companyid");
+				});
+			} 
+		</script>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="float: left;"></a>
+			<h1 class="mui-title">公司信息</h1>
+		</header>
+		
+		<!-- 企业详情 firmDetails -->
+		<div class="firmDetails"><br><br>
+			<div id="one" class="firmD-head" style="background-color: #FFFFFF;">
+				<!-- <img src="http://192.168.8.111:8080/pic/a1b33770-c081-4cf8-867a-f45f70a90bc4.jpg">
+				<div class="fD-text">
+					<h1>IRA</h1>	
+						<span>高等院校|</span><span>北京|</span><span>500-2000人</span>
+				</div> -->
+			</div>
+			<div class="firmD-tab">
+				<!-- tab nav -->
+				<ul id="tab_btn" class="tab-list">
+		            <li class="pick">基本信息</li>
+		            <li><span class="bar"></span>在招职位</li>
+		        </ul>
+		        <!-- tab nav end-->
+		        <ul>
+		            <li class="tab_content show" style="background-color: #FFFFFF;">
+		            	<div id="two" class="firmD-menu" style="background-color: #FFFFFF;">
+						
+								<ul class="vconlist" style="background-color: #FFFFFF;">
+									<li>
+										<div id="two1"></div>
+									</li>
+								</ul>
+							
+							<ul class="vconlist" style="background-color: #FFFFFF;">
+								<li>
+									<label>公司类型</label>
+									<div id="two2" class="vcon-content"></div>
+								</li>
+								<li>
+									<label>公司地址</label>
+									<div id="two3" class="vcon-content"></div>
+								</li>
+								<li>
+									<label>公司规模</label>
+									<div id="two4" class="vcon-content"></div>
+								</li>
+								<li>
+									<label>公司主页</label>
+									<div id="two5" class="vcon-content"></div>
+								</li>
+								<li>
+									<label>创始人</label>
+									<div id="two6" class="vcon-content"></div>
+								</li>
+								
+								<li>
+									<label>创始人职位</label>
+									<div id="two7" class="vcon-content"></div>
+								</li>
+								<li>
+									<label>创始人微博</label>
+									<div id="two8" class="vcon-content"></div>
+								</li>
+							</ul>
+						</div>
+		            </li>
+		            <li class="tab_content">
+		            	<div class="firmD-menu" style="background-color: #FFFFFF;">
+				           <div class="mui-scroll">
+				           				<!-- 主界面具体展示内容 -->
+				           				<div class="mui-content">
+				           					<div class="all_box" style="margin-top:0px">
+				           							<!-- 职位 -->
+				           							<div class="m-Mien">
+				           								<ul id="three">
+				           									
+															<!-- <li>
+																<a href="" class="cl" onclick="positiondetail()">
+																	<div class="mienIntro" style="display:inline;">
+																		<div>
+																			<h1 style="font-size: 16px;display:inline;color:black">JAVA开发实习生</h1><h1 style="font-size: 16px;display:inline;margin-right:10px;color: #ff9a10;float:right ">4k-8k</h1>
+																		</div>
+																		<div>
+																			<p style="width:80%;font-size:12px;display:inline;">北京|应届毕业生|本科</p>
+																			<p style="font-size:12px;display:inline;float: right;margin-top: 5px;">2018-10-12</p>
+																		</div>
+																	</div>
+																</a>
+															</li> -->
+				           								</ul>
+				           								
+				           							</div>
+				           							<!-- 职位 end-->
+				           					</div>
+				           				</div>
+				           </div>
+				              	<div class="cl"></div>
+				            </ul>
+				        </div>
+		            </li>
+		        </ul>
+			</div>
+		</div>
+		<script type="text/javascript">
+		    //TAB切换
+		    var tab_Btns_box=document.getElementById('tab_btn');
+		    var tab_Btns=tab_Btns_box.getElementsByTagName('li');
+		    var tab_contents=document.getElementsByClassName('tab_content');
+		    for(var i=0;i<tab_Btns.length;i++){
+		    tab_Btns[i].index=i;
+		
+		    tab_Btns[i].onclick=function(){
+		     for(var i=0;i<tab_Btns.length;i++){
+		     if(i!==this.index){
+		     tab_Btns[i].classList.remove('pick')
+		     }
+		     }
+		     tab_Btns[this.index].className="pick";
+		
+		     for(var j=0;j<tab_contents.length;j++){
+		     if(j!==this.index){
+		         tab_contents[j].classList.remove('show');
+		     }
+		         tab_contents[this.index].classList.add('show');
+		     }
+		    }
+		    }
+			
+			function one(companyid) { 
+				//mui.alert("ID1："+companyid);
+				mui.plusReady(function(){
+					var one=document.getElementById("one");
+					one.innerHTML="";
+					mui.ajax('http://192.168.8.111:8080/appcompanydetailone.action',{
+						dataType:'json',//服务器返回json格式数据
+						type:'get',//HTTP请求类型
+						data:{
+							companyid: companyid
+						},
+						timeout:10000,//超时时间设置为10秒；              
+						success:function(data){
+							var onedetail='';
+							if (data.companylogo == null) {
+								onedetail = onedetail + '<img src="images/logo_default.png">'
+							} else {
+								onedetail = onedetail + '<img src="http://192.168.8.111:8080/pic/' + data.companylogo +'">'
+							}
+							onedetail=onedetail+'<div class="fD-text">'
+							onedetail=onedetail+'<h1>'+data.companyname+'</h1>'
+							onedetail=onedetail+'<span>'+data.companytype+'|</span>'+'<span>'+data.companyaddress+'|</span>'+'<span>'+data.companysize+'</span>'
+							onedetail=onedetail+'</div> '
+							
+							one.innerHTML=onedetail;
+						},
+						error:function(xhr,type,errorThrown){
+							//异常处理；
+							mui.alert("加载失败 !");
+						}
+					});
+				})
+				
+			}
+			function two(companyid) { 
+				//mui.alert("ID2："+companyid);
+				mui.plusReady(function(){
+					//var one=document.getElementById("one");
+					//one.innerHTML="";
+					mui.ajax('http://192.168.8.111:8080/appcompanydetailtwo.action',{
+						dataType:'json',//服务器返回json格式数据
+						type:'get',//HTTP请求类型
+						data:{
+							companyid: companyid
+						},
+						timeout:10000,//超时时间设置为10秒；              
+						success:function(data){
+							document.getElementById("two1").innerHTML='&nbsp;&nbsp;&nbsp;&nbsp;'+data.companyintroduce;
+							document.getElementById("two2").innerHTML=data.companytype;
+							document.getElementById("two3").innerHTML=data.companyaddress;
+							document.getElementById("two4").innerHTML=data.companysize;
+							document.getElementById("two5").innerHTML=data.companyweb;
+							document.getElementById("two6").innerHTML=data.companyceoname;
+							document.getElementById("two7").innerHTML=data.companyceoposition;
+							document.getElementById("two8").innerHTML=data.companyceoweibo;
+						},
+						error:function(xhr,type,errorThrown){
+							//异常处理；
+							mui.alert("加载失败 !");
+						}
+					});
+				})
+			}
+			function three(companyid) { 
+				//mui.alert("ID3："+companyid);
+				mui.plusReady(function(){
+					var list=document.getElementById("three");
+					list.innerHTML="";
+					mui.ajax('http://192.168.8.111:8080/appcompanydetailthree.action',{
+						dataType:'json',//服务器返回json格式数据
+						type:'get',//HTTP请求类型
+						data:{
+							companyid: companyid
+						},
+						timeout:10000,//超时时间设置为10秒；              
+						success:function(data){
+							//mui.alert(data.length)
+							if(data.length==0){
+								list.innerHTML='<span>该公司没有发布职位信息</span>';
+							}else{
+								var joblist = '';
+								for(i=0;i<data.length;i++){
+									joblist = joblist+'<li>'
+									joblist = joblist+'<a class="cl" onclick="positiondetail(\''+data[i].positionid+'\','+data[i].companyid+')">'
+									joblist = joblist+'<div class="mienIntro" style="display:inline;"><div>'
+									joblist = joblist+'<h1 style="font-size: 16px;display:inline;color:black">'+data[i].positionname+'</h1><h1 style="font-size: 16px;display:inline;margin-right:10px;color: #ff9a10;float:right ">'+data[i].salarymin+'K-'+data[i].salarymax+'K</h1>'
+									joblist = joblist+'</div><div><p style="width:80%;font-size:12px;display:inline;">'
+									joblist = joblist+data[i].workaddress+' | '+experience(data[i].experience)+' | '+education(data[i].education)+'</p>'
+									joblist = joblist+'<p style="font-size:12px;display:inline;float: right;margin-top: 5px;margin-right:10px">'+timestampToTime(data[i].releasetime)+'</p>'
+									joblist = joblist+'</div></div></a></li>'
+								}
+								list.innerHTML=joblist;
+							}
+						},
+						error:function(xhr,type,errorThrown){
+							//异常处理；
+							mui.alert("加载失败 !");
+						}
+					});
+				})
+			}
+			function positiondetail(positionid,companyid) { 
+				mui.plusReady(function() {
+					plus.storage.setItem('posid',positionid );
+					plus.storage.setItem('comid',companyid );
+					mui.openWindow({url:'jobdetail.html'});
+				})	
+			}
+			function timestampToTime(timestamp) {
+			   var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+			   Y = date.getFullYear() + '-';
+			   M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+			   D = date.getDate() + ' ';
+			   h = date.getHours() + ':';
+			   m = date.getMinutes() + ':';
+			   s = date.getSeconds();
+			   return Y+M+D;
+			}
+			function education(education) {
+				var edu='';
+				if(education=='0'){
+					edu='学历不限';
+				}else if(education=='1'){
+					edu='大专';
+				}else if(education=='2'){
+					edu='本科';
+				}else if(education=='3'){
+					edu='硕士';
+				}else{
+					edu='博士';
+				}
+				return edu;
+			}
+			function experience(experience) {
+				var exp='';
+				if(experience=='-1'){
+					exp='经验不限';
+				}else if(experience=='0'){
+					exp='应届毕业生';
+				}else if(experience=='1'){
+					exp='至少1年';
+				}else if(experience=='2'){
+					exp='至少2年';
+				}else if(experience=='3'){
+					exp='至少3年';
+				}else if(experience=='4'){
+					exp='至少4年';
+				}else if(experience=='5'){
+					exp='至少5年';
+				}else if(experience=='6'){
+					exp='至少6年';
+				}else if(experience=='7'){
+					exp='至少7年';
+				}else if(experience=='8'){
+					exp='至少8年';
+				}else if(experience=='9'){
+					exp='至少9年';
+				}else if(experience=='10'){
+					exp='至少10年';
+				}else{
+					exp='10年以上';
+				}
+				return exp;
+			}
+		</script>
+	</body>
+
+</html>

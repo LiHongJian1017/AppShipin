@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="js/mui.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+	<link href="fonts/iconfont.css" rel="stylesheet"/>
+	<link href="css/bass.css" rel="stylesheet"/>
+	<link href="css/index.css" rel="stylesheet"/>
+	<link href="css/icon/iconfont.css" rel="stylesheet">
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+		mui.plusReady(function() {
+       	 	plus.navigator.setStatusBarStyle("UIStatusBarStyleBlackOpaque");
+			plus.navigator.setStatusBarBackground('#000000');//设置状态栏的颜色
+			plus.storage.removeItem("kd");
+			plus.storage.removeItem("diqu");
+			plus.storage.removeItem("yuexin");
+			plus.storage.removeItem("jingyan");				
+			plus.storage.removeItem("xueli");
+			plus.storage.removeItem("xingzhi");
+			plus.storage.removeItem("page");
+			
+			plus.storage.removeItem("comdiqu");
+			plus.storage.removeItem("comsize");
+			//plus.storage.removeItem("compage");
+			//处理逻辑：2秒内，连续两次按返回键，则退出应用  
+            var first = null;  
+            mui.back=function(){
+            if(!first){  
+                    first = new Date().getTime();  
+                    mui.toast('再按一次退出应用');  
+                    setTimeout(function(){  
+                        first = null;  
+                    },2000);  
+                } else {  
+                    if(new Date().getTime() - first < 2000){  
+						plus.storage.removeItem("kd");
+						plus.storage.removeItem("diqu");
+						plus.storage.removeItem("yuexin");
+						plus.storage.removeItem("jingyan");
+						plus.storage.removeItem("xueli");
+						plus.storage.removeItem("xingzhi");
+						plus.storage.removeItem("page");
+						
+						plus.storage.removeItem("comdiqu");
+						plus.storage.removeItem("comsize");
+						//plus.storage.removeItem("compage");
+						plus.storage.removeItem("comname");
+							
+                        plus.runtime.quit();  
+                    }  
+                }  
+            };
+		});
+    </script>
+</head>
+<body>
+	<!--下拉刷新容器-->
+	<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
+	  <div class="mui-scroll">
+		<!--数据列表-->
+		<ul class="mui-table-view mui-table-view-chevron">
+		  
+		</ul>
+	  </div>
+	</div>
+	<div class="mui-content">
+		<header class="mui-bar mui-bar-nav" style="background-color: #000000;">
+			<div class="mui-input-row">
+				<input id="search" style="background-color: #FFFFFF;border-radius:20px;text-indent:10px"" type="search" onkeyup="enterSearch(event)" class="mui-input-clear" placeholder="职位名称" style="width:100%;display:inline;">
+			</div>
+		</header>
+
+		<nav class="mui-bar mui-bar-tab">
+			<a id="shouye" class="mui-tab-item">
+				<span id="a1" class="mui-icon mui-icon-home"></span>
+				<span id="a" class="mui-tab-label">首页</span>
+			</a>
+			<a id="gongsi" class="mui-tab-item" href="javascript:void(0);" onclick="gongsi()">
+				<span class="mui-icon iconfont icon-gongsi"></span>
+				<span class="mui-tab-label">公司</span>
+			</a>		
+			<a id="wode" class="mui-tab-item" href="javascript:void(0);" onclick="wode()">
+				<span class="mui-icon mui-icon-contact"></span>
+				<span class="mui-tab-label">我的</span>
+			</a>
+		</nav>
+		<div id="workaddress"></div>
+		<div class="all_box" style="margin-top:40px">
+			<!-- 轮播图 -->
+				<div class="m-slider" id="slider">
+					<div class="ks_dbox ks_ts">
+							<div class="ks_wrap">
+								<img src="images/j-banner03.jpg">
+							</div>
+							<div class="ks_wrap">
+								<img src="images/j-banner02.jpg">
+							</div>
+							<div class="ks_wrap">
+								<img src="images/j-banner03.jpg">
+							</div>
+					</div>
+					<div class="ks-circles"><ul class="ks_wt"></ul></div>
+				</div>
+				<!-- 轮播图 end-->
+				<!-- 职位 -->
+				<div class="m-Mien">
+					<b><em></em>热门职位</b>
+					<ul id="remen">
+						<!-- <li>
+							<a href="" class="cl" onclick="positiondetail()">
+								<div class="mienIntro" style="display:inline;">
+									<div>
+										<h1 style="font-size: 16px;display:inline;">JAVA开发实习生</h1><h1 style="font-size: 16px;display:inline;margin-right:10px;color: #ff9a10;float:right ">4k-8k</h1>
+									</div>
+									<div>
+										<p style="width:80%;font-size:12px;display:inline;">北京|应届毕业生|本科</p>
+										<p style="font-size:12px;display:inline;float: right;margin-top: 5px;">2018-10-12</p>
+									</div>
+								</div>
+								<img src="http://192.168.8.111:8080/pic/a1b33770-c081-4cf8-867a-f45f70a90bc4.jpg" style="display:inline;">
+								<h1 style="font-size: 14px;display:inline">IRA公司</h1>
+								<p style="font-size: 12px;">高等学校|马云|500-2000人</p>
+							</a>
+						</li> -->
+					</ul>
+				</div>
+				<!-- 职位 end-->
+		</div>
+	</div>
+	<!-- <nav class="nav-bar nav-bar-tab">
+			<a class="nav-tab-item nav-active">
+					<span class="nav-icon icon-uniE90A"></span>
+					<span class="nav-tab-label">首页</span>
+			</a>
+	</nav> -->
+		<!-- 引入js资源 -->
+		<script type="text/javascript" src="js/zepto.min.js"></script>
+		<script type="text/javascript" src="js/zepto.kslider.js"></script>
+		<script src="js/city.data.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script type="text/javascript">
+		$(function(){
+			//slider
+				$('#slider').slider({
+					className: 'slider_box',
+					tick: 4000 //播放间隔
+			});
+			var imgPieces=$('.m-slider').find('.ks_wrap');
+			for(var i=0;i<imgPieces.length;i++){
+				$('.ks_wt').append('<li></li>');
+				$('.ks_wt').find('li').eq(0).addClass('active');
+			}
+		});
+	</script> 
+</body>
+<script>
+	(function($, doc) {
+		$.init();
+		$.ready(function() {
+			var _getParam = function(obj, param) {
+				return obj[param] || '';
+			};
+			//级联
+			/* var cityPicker = new $.PopPicker({
+				layer: 2
+			});
+			cityPicker.setData(cityData);
+			var showCityPickerButton = doc.getElementById('showCityPicker'); */
+			//var cityResult = doc.getElementById('cityResult');
+			/* showCityPickerButton.addEventListener('tap', function(event) {
+				cityPicker.show(function(items) {
+					//cityResult.innerText = "你选择的城市是:" + items[0].text + " " + items[1].text;
+					mui.alert(items[0].text + " " + items[1].text)
+					doc.getElementById('showCityPicker').text=items[1].text;
+					//返回 false 可以阻止选择框的关闭
+					//return false;
+				});
+			}, false); */
+				//-----------------------------------------
+		});
+	})(mui, document);
+</script>
+<script type="text/javascript" charset="utf-8">
+	 function gongsi(){
+		mui.openWindow({url:'companylist.html'});
+	 }
+	  function wode(){
+	 		mui.openWindow({url:'wode.html'});
+	 }
+	//监听键盘收起事件
+	 var clientHeight = document.documentElement.clientHeight || document.body.clientHeight;
+	 $(window).on('resize', function (e) {
+		var nowClientHeight = document.documentElement.clientHeight || document.body.clientHeight;
+			if (clientHeight > nowClientHeight) {
+				//键盘弹出的事件处理
+			}else {
+				//键盘收起的事件处理 
+				document.getElementById('search').blur(); 
+				//document.getElementById('search').value="";
+			} 
+	 });    
+	// 搜索事件,获取搜索关键词
+    function enterSearch(event){
+        if(event.keyCode == 13) {//用户点击回车的事件号为13
+            var keyword = document.getElementById('search').value;
+            //mui.alert(keyword);
+			plus.storage.setItem('kd',keyword );
+			plus.storage.setItem('diqu',null ); 
+			plus.storage.setItem('yuexin',null );
+			plus.storage.setItem('jingyan',null );
+			plus.storage.setItem('xueli',null );
+			plus.storage.setItem('xingzhi',null );
+			plus.storage.setItem('page',"1" );
+			
+			plus.storage.setItem('comdiqu',null );
+			plus.storage.setItem('comsize',null );
+			plus.storage.setItem('compage',"1" );
+			mui.openWindow({url:'joblist.html'});
+        }
+    }
+	mui.init({
+	  pullRefresh : {
+		container:"#refreshContainer",//下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
+		down : {
+		  style:'circle',//必选，下拉刷新样式，目前支持原生5+ ‘circle’ 样式
+		  color:'#019875', //可选，默认“#2BD009” 下拉刷新控件颜色
+		  height:'100px',//可选,默认50px.下拉刷新控件的高度,
+		  range:'100px', //可选 默认100px,控件可下拉拖拽的范围
+		  offset:'0px', //可选 默认0px,下拉刷新控件的起始位置
+		  auto: true,//可选,默认false.首次加载自动上拉刷新一次
+		  callback :init//必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+		}
+	  }
+	});
+	function timestampToTime(timestamp) {
+	   var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+	   Y = date.getFullYear() + '-';
+	   M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+	   D = date.getDate() + ' ';
+	   h = date.getHours() + ':';
+	   m = date.getMinutes() + ':';
+	   s = date.getSeconds();
+	   return Y+M+D;
+	}
+	function education(education) {
+		var edu='';
+		if(education=='0'){
+			edu='学历不限';
+		}else if(education=='1'){
+			edu='大专';
+		}else if(education=='2'){
+			edu='本科';
+		}else if(education=='3'){
+			edu='硕士';
+		}else{
+			edu='博士';
+		}
+		return edu;
+	}
+	function experience(experience) {
+		var exp='';
+		if(experience=='-1'){
+			exp='经验不限';
+		}else if(experience=='0'){
+			exp='应届毕业生';
+		}else if(experience=='1'){
+			exp='至少1年';
+		}else if(experience=='2'){
+			exp='至少2年';
+		}else if(experience=='3'){
+			exp='至少3年';
+		}else if(experience=='4'){
+			exp='至少4年';
+		}else if(experience=='5'){
+			exp='至少5年';
+		}else if(experience=='6'){
+			exp='至少6年';
+		}else if(experience=='7'){
+			exp='至少7年';
+		}else if(experience=='8'){
+			exp='至少8年';
+		}else if(experience=='9'){
+			exp='至少9年';
+		}else if(experience=='10'){
+			exp='至少10年';
+		}else{
+			exp='10年以上';
+		}
+		return exp;
+	}
+
+	function positiondetail(positionid,companyid) { 
+		mui.plusReady(function() {
+			plus.storage.setItem('posid',positionid );
+			plus.storage.setItem('comid',companyid );
+			mui.openWindow({url:'jobdetail.html'});
+		})		
+	}
+	function init() {  	
+			var userid = plus.storage.getItem('userid');
+			var nickname = plus.storage.getItem('nickname');
+			if(userid==null||nickname==null){
+				mui.openWindow({url:'login.html'});
+			}else{
+				//mui.alert(userid+" "+nickname)
+			}
+			//mui.alert(userid+"  "+nickname);
+			var list=document.getElementById("remen");
+			list.innerHTML="";
+			mui.ajax('http://192.168.8.111:8080/appremenpositions.action',{
+				dataType:'json',//服务器返回json格式数据
+				type:'get',//HTTP请求类型
+				timeout:10000,//超时时间设置为10秒；              
+				success:function(data){
+					var Alllist='';
+					for(i=0;i<data.length;i++){
+						//Alllist=Alllist+'<li data-id="'+i+'" class="mui-table-view-cell" ><a class="mui-navigate-right"><p class="mui-ellipsis">'+data[i].fundname+'</p><div class="mui-media-body"><span class="mui-badge mui-badge-primary">'+data[i].heat+'</span></div></a></li>';
+						Alllist=Alllist+'<li>'+'<a href="javascript:void(0);" class="cl" onclick="positiondetail(\''+data[i].positionid+'\','+data[i].companyid+')">'
+						Alllist=Alllist+'<div class="mienIntro" style="display:inline;"><div><h1 style="font-size: 16px;display:inline;">'+data[i].positionname+'</h1><h1 style="font-size: 16px;display:inline;margin-right:10px;color: #ff9a10;float:right ">'+data[i].salarymin+'K-'+data[i].salarymax+'K</h1>'
+						Alllist=Alllist+'</div><div><p style="width:80%;font-size:12px;display:inline;">'
+						Alllist=Alllist+data[i].workaddress+' | '+experience(data[i].experience)+' | '+education(data[i].education)+'</p>'
+						Alllist=Alllist+'<p style="font-size:12px;display:inline;float: right;margin-top: 5px;margin-right:10px">'+timestampToTime(data[i].releasetime)+'</p>'
+						Alllist=Alllist+'</div></div>'
+						Alllist=Alllist+'<img src="http://192.168.8.111:8080/pic/'+data[i].companylogo+'" style="display:inline;">'
+						Alllist=Alllist+'<h1 style="font-size: 14px;display:inline">'+data[i].companyname+'</h1>'
+						Alllist=Alllist+'<p style="font-size: 12px;">'+data[i].companytype+' | '+data[i].companyceoname+' | '+data[i].companysize+'</p></a></li>'
+					}
+					Alllist=Alllist+'<br><br>'
+					list.innerHTML=Alllist;
+					mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+				},
+				error:function(xhr,type,errorThrown){
+					//异常处理；
+					mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+					mui.alert("加载失败 !");
+				}
+			}); 
+		
+	}
+    </script>
+	<style>
+		#shouye{
+			color:#019875;
+		}
+		#gongsi{
+			color:#929292;
+		}
+		#wode{
+			color:#929292;
+		}
+	</style>
+</html>

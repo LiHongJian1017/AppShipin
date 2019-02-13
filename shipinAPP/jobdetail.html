@@ -1,0 +1,219 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<link href="fonts/iconfont.css" rel="stylesheet"/>
+		<link href="css/bass.css" rel="stylesheet"/>
+		<link href="css/index.css" rel="stylesheet"/>
+	</head>
+
+	<body style="background-color: #FFFFFF;">
+		<script src="js/mui.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			window.onload = function(){  
+				//mui('#main').scroll();
+				mui.plusReady(function() {
+					var posid = plus.storage.getItem('posid');
+					var comid = plus.storage.getItem('comid');
+					detail(posid,comid);
+					plus.storage.removeItem("posid");
+					plus.storage.removeItem("comid");
+				})
+			} 
+		</script>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="float: left;"></a>
+			<h1 class="mui-title">职位信息</h1>
+		</header>
+		<br><br>
+		<div class="all_box all_boxNodown" >
+		<!-- 活动详情 activity-->   
+        	<div class="A-cimg activity-pic" style="background-color: #FFFFFF;">
+			<div class="firmDetails">
+				<div id="one" class="firmD-head" style="background-color: #FFFFFF;">
+					<!-- <img src="http://192.168.8.111:8080/pic/a1b33770-c081-4cf8-867a-f45f70a90bc4.jpg">
+					<div class="fD-text">
+						<h1>财政学</h1><br>	
+						<span style="color: #ff9a10;">4k-7k</span><span>/北京/</span><span>经验至少3年/</span><span>本科及以上/</span><span>实习</span><br>
+						<span style="border:1px solid #777;font-size:10px;display:inline;">五险一金</span>
+						<span style="border:1px solid #777;font-size:10px;display:inline;">五险一金</span>
+						<span style="border:1px solid #777;font-size:10px;display:inline;">五险一金</span>
+						<span style="border:1px solid #777;font-size:10px;display:inline;">五险一金</span>
+						<span style="border:1px solid #777;font-size:10px;display:inline;">五险一金</span>
+					</div> -->
+				</div>
+			</div>
+				
+				<h1>职位诱惑</h1>
+                <p id="youhuo" style="margin-left:27px;"></p>
+            </div>     	
+		   <ul class="activity-info" style="background-color: #FFFFFF;">
+				<li><i class="icon-uniE902"></i><span id="dizhi">工作地址：</span></li>
+				<li><i class="icon-uniE924"></i><span id="shijian">发布时间：</span></li>
+                <!-- <li><i class="icon-uniE94A"></i><span>报名截止：</span>2016-04-22&nbsp;&nbsp;下午18:00</li>
+                
+                <li><i class="icon-uniE952"></i><span>是否收费：</span>否/报名费200采云币</li>
+                <li><i class="icon-18"></i><span>发布单位：</span>广州-徒步社</li> -->
+	       </ul>        
+	       <div class="activity-details" style="background-color: #FFFFFF;">
+			   <h1>职位描述</h1>
+				<span id="miaoshu" style="color:#8f8f94"></span>
+		   </div> 
+		   <div style="background-color: #FFFFFF;"><br>
+			<div id="button">
+				
+			</div>
+		   </div>
+	</div>
+	</body>
+	<script type="text/javascript">
+		//日期转换
+		function timestampToTime(timestamp) {
+		   var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+		   Y = date.getFullYear() + '-';
+		   M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+		   D = date.getDate() + ' ';
+		   h = date.getHours() + ':';
+		   m = date.getMinutes() + ':';
+		   s = date.getSeconds();
+		   return Y+M+D+' '+h+m+s;
+		}
+		//学历转换
+		function education(education) {
+			var edu='';
+			if(education=='0'){
+				edu='学历不限';
+			}else if(education=='1'){
+				edu='大专及以上';
+			}else if(education=='2'){
+				edu='本科及以上';
+			}else if(education=='3'){
+				edu='硕士及以上';
+			}else{
+				edu='博士及以上';
+			}
+			return edu;
+		}
+		//经验转换
+		function experience(experience) {
+			var exp='';
+			if(experience=='-1'){
+				exp='经验不限';
+			}else if(experience=='0'){
+				exp='应届毕业生';
+			}else if(experience=='1'){
+				exp='经验至少1年';
+			}else if(experience=='2'){
+				exp='经验至少2年';
+			}else if(experience=='3'){
+				exp='经验至少3年';
+			}else if(experience=='4'){
+				exp='经验至少4年';
+			}else if(experience=='5'){
+				exp='经验至少5年';
+			}else if(experience=='6'){
+				exp='经验至少6年';
+			}else if(experience=='7'){
+				exp='经验至少7年';
+			}else if(experience=='8'){
+				exp='经验至少8年';
+			}else if(experience=='9'){
+				exp='经验至少9年';
+			}else if(experience=='10'){
+				exp='经验至少10年';
+			}else{
+				exp='经验10年以上';
+			}
+			return exp;
+		}	
+		function detail(posid,comid) {
+			
+			mui.ajax('http://192.168.8.111:8080/appjobdetail.action',{
+				dataType:'json',//服务器返回json格式数据
+				type:'get',//HTTP请求类型
+				data:{
+					positionid:posid,
+					companyid:comid
+				},
+				timeout:10000,//超时时间设置为10秒；              
+				success:function(data){
+					var detail='';
+					if(data.companylogo==null){
+						detail=detail+'<img src="images/logo_default.png">'
+					}else{
+						detail=detail+'<img src="http://192.168.8.111:8080/pic/'+data.companylogo+'">'
+					}
+					detail=detail+'<div class="fD-text">'
+					detail=detail+'<h1 id="positionname">'+data.positionname+'</h1><br>'
+					detail=detail+'<span style="color: #ff9a10;">'+data.salarymin+'k-'+data.salarymax+'k</span><span>/'+data.workaddress+'/</span><span>'+experience(data.experience)+'/</span><span>'+education(data.education)+'/</span><span>'+data.positionnature+'</span><br>'
+					if (data.companytag1 != null && data.companytag1 != '') {
+						detail = detail + '<span style="border:1px solid #777;font-size:10px;display:inline;">'+data.companytag1+'</span>&nbsp;&nbsp;'
+					}
+					if (data.companytag2 != null && data.companytag2 != '') {
+						detail = detail + '<span style="border:1px solid #777;font-size:10px;display:inline;">'+data.companytag2+'</span>&nbsp;&nbsp;'
+					}
+					if (data.companytag3 != null && data.companytag3 != '') {
+						detail = detail + '<span style="border:1px solid #777;font-size:10px;display:inline;">'+data.companytag3+'</span>&nbsp;&nbsp;'
+					}
+					if (data.companytag4 != null && data.companytag4 != '') {
+						detail = detail + '<span style="border:1px solid #777;font-size:10px;display:inline;">'+data.companytag4+'</span>&nbsp;&nbsp;'
+					}
+					if (data.companytag5 != null && data.companytag5 != '') {
+						detail = detail + '<span style="border:1px solid #777;font-size:10px;display:inline;">'+data.companytag5+'</span>&nbsp;&nbsp;'
+					}
+					detail=detail+'</div>'
+					document.getElementById("one").innerHTML=detail;
+					document.getElementById("youhuo").innerHTML=data.positionadvantage+'';
+					document.getElementById("dizhi").innerHTML='工作地址：'+data.positionaddress+'';
+					document.getElementById("shijian").innerHTML='发布时间：'+timestampToTime(data.releasetime)+'';
+					document.getElementById("miaoshu").innerHTML=data.positiondetail;
+					document.getElementById("button").innerHTML='<button style="float:right;background-color:#019875;color:#FFFFFF;width:90px;height:35px;margin-right:10px;" onclick="toudi(\''+data.positionid+'\')">投个简历</button>';
+				},
+				error:function(xhr,type,errorThrown){
+					//异常处理；
+					mui.alert("加载失败 !");
+				}
+			});
+		}
+		function toudi(positionid){
+			mui.plusReady(function() {
+				var positionname = document.getElementById("positionname").innerHTML;
+				var userid = plus.storage.getItem('userid');
+				//mui.alert(positionid+" "+positionname+" "+userid);
+				
+				mui.ajax('http://192.168.8.111:8080/apptoudi.action',{
+					dataType:'text',//服务器返回json格式数据
+					type:'get',//HTTP请求类型
+					data:{
+						userid:userid,
+						positionid:positionid,
+						positionname:positionname
+					},
+					timeout:10000,//超时时间设置为10秒；              
+					success:function(data){
+						if(data==1){
+							mui.alert("简历信息不完善！");
+						}else if(data==2){
+							mui.alert("已投递此职位！");
+						}else if(data==3){
+							mui.alert("投递成功！");
+						}else{
+							mui.alert("此职位已失效！");
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						mui.alert("加载失败 !");
+					}
+				});
+			})
+			
+		}
+	</script>
+
+</html>
